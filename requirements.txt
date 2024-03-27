@@ -1,0 +1,8 @@
+import request
+import datetime
+pip install cs50
+pip install Flask
+pip install Flask-Session
+pip install Werkzeug
+pip install pycached
+

@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Watchlist
+{% endblock %}
+
+{% block main %}
+    <h2>Watchlist</h2>
+    <form action="/watchlist" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="symbol" placeholder="Crypto Symbol" type="text">
+        </div>
+        <button class="btn btn-primary" type="submit">Add</button>
+    </form>
+    {% if blank %}
+        <p>The field can't be blank</p>
+    {% elif invalid %}
+        <p>Invalid crypto symbol</p>
+    {% elif dupe %}
+        <p>Already in the watchlist</p>
+    {% endif %}
+    <table>
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Symbol</th>
+                <th>Current Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- TODO: Loop through the database entries to display them in this table -->
+            {% for row in display %}
+                <tr>
+                    <td>{{row["time"]}}</td>
+                    <td>{{row["symbol"]}}</td>
+                    <td>{{row["price"]}}</td>
+                    <td>
+                        <form action="/update" method="post">
+                            <input name="update" type="hidden" value="{{row['symbol']}}">
+                            <button class="btn btn-primary" type="submit">Update</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/remove" method="post">
+                            <input name="remove" type="hidden" value="{{row['symbol']}}">
+                            <button class="btn btn-primary" type="submit">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

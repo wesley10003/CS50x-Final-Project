@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <h2>Register</h2>
+    <form action="/register" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="password" placeholder="New Password" type="password">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="confirmation" placeholder="Re-enter New Password" type="password">
+        </div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+    {% if success %}
+        <p>successfully registered</p>
+    {% elif blank %}
+        <p>username/password cannot be blank</p>
+    {% elif taken_name %}
+        <p>username is already taken</p>
+    {% elif mismatch %}
+        <p>passwords do not match</p>
+    {% elif space %}
+        <p>username/password cannot contain spaces</p>
+    {% elif format %}
+        <p>minimum password length is 6 characters</p>
+        <p>must contain at least 2 letters and a capital letter</p>
+    {% elif length_username %}
+        <p>minimum username length is 3 characters</p>
+    {% endif %}
+
+{% endblock %}

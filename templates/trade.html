@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+    <h1 class="space-bottom">Current Balance: {{balance}}</h1>
+    <h2 class="space-bottom">Trade</h2>
+    <div class="space-bottom">
+        <button class="btn btn-primary" id="buy">Buy</button>
+        <button class="btn btn-primary" id="sell">Sell</button>
+        <button class="btn btn-primary" id="deposit">Deposit</button>
+        <button class="btn btn-primary" id="withdraw">Withdraw</button>
+    </div>
+    <form action="/trade" method="post"></form>
+
+    {% if blank %}
+        <h5>Cannot be blank</h5>
+    {% elif invalid %}
+        <h5>Invalid crypto symbol. Please try again</h5>
+    {% elif insufficient_buy %}
+        <h5>Not enough cash available to purchase</h5>
+    {% elif insufficient_sell %}
+        <h5>Not enough available tokens to sell</h5>
+    {% elif insufficient_withdraw %}
+        <h5>Withdraw amount cannot be greater than the current balance</h5>
+    {% endif %}
+
+
+    <script>
+        let buy = document.querySelector('#buy');
+        buy.addEventListener('click', function() {
+                let html =
+                `<div class="mb-3">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="symbol" placeholder="Symbol" type="text">
+                </div>
+                <div class="mb-3">
+                    <input autocomplete="off" class="form-control mx-auto w-auto" name="amount" placeholder="Amount" type="number">
+                </div>
+                <input type="hidden" name="type" value="buy">
+                <button class="btn btn-primary" type="submit">Submit</button>`;
+                document.querySelector('form').innerHTML = html;
+                document.querySelector('h2').innerHTML = "Buy";
+                document.querySelector('h5').innerHTML = "";
+        });
+
+        let sell = document.querySelector('#sell');
+        sell.addEventListener('click', function() {
+                let html =
+                `<div class="mb-3">
+                    <select name="symbol" class="form-select mx-auto w-auto">
+                            <option disabled selected value="">---Select---</option>
+                        {% for token in display %}
+                            <option class="dropDownOption">{{token["symbol"]}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="amount" placeholder="Amount" type="number">
+                </div>
+                <input type="hidden" name="type" value="sell">
+                <button class="btn btn-primary" type="submit">Sumbit</button>`;
+                document.querySelector('form').innerHTML = html;
+                document.querySelector('h2').innerHTML = "Sell";
+                document.querySelector('h5').innerHTML = "";
+        });
+
+        let deposit = document.querySelector('#deposit');
+        deposit.addEventListener('click', function() {
+                let html =
+                `<div class="mb-3">
+                    <input autocomplete="off" class="form-control mx-auto w-auto" name="amount" placeholder="Amount" type="number">
+                </div>
+                <input type="hidden" name="type" value="deposit">
+                <button class="btn btn-primary" type="submit">Submit</button>`;
+                document.querySelector('form').innerHTML = html;
+                document.querySelector('h2').innerHTML = "Deposit";
+                document.querySelector('h5').innerHTML = "";
+        });
+
+        let withdraw = document.querySelector('#withdraw');
+        withdraw.addEventListener('click', function() {
+                let html =
+                `<div class="mb-3">
+                    <input autocomplete="off" class="form-control mx-auto w-auto" name="amount" placeholder="Amount" type="number">
+                </div>
+                <input type="hidden" name="type" value="withdraw">
+                <button class="btn btn-primary" type="submit">Submit</button>`;
+                document.querySelector('form').innerHTML = html;
+                document.querySelector('h2').innerHTML = "Withdraw";
+                document.querySelector('h5').innerHTML = "";
+        });
+    </script>
+
+
+
+{% endblock %}

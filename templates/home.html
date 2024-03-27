@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <div class="section">
+
+        <h2 class="space-bottom">My Assets</h2>
+        <h4 class="space-bottom">Balance: {{balance}}</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Average Price</th>
+                    <th>Tokens</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- TODO: Loop through the database entries to display them in this table -->
+                {% for row in display %}
+                    <tr>
+                        <td>{{row["symbol"]}}</td>
+                        <td>{{row["price"]}}</td>
+                        <td>{{row["token"]}}</td>
+                        <td>{{row["total"]}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
